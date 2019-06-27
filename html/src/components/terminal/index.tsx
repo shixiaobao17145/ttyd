@@ -13,6 +13,7 @@ import 'xterm/dist/xterm.css';
 export interface WindowExtended extends Window {
   term: Terminal;
   tty_auth_token?: string;
+  xterm:Xterm;
 }
 declare let window: WindowExtended;
 
@@ -240,6 +241,17 @@ export class Xterm extends Component<Props, State> {
 
     window.addEventListener('resize', this.onWindowResize);
     window.addEventListener('beforeunload', this.onWindowUnload);
+    window['$xterm'] = this;
+    window.addEventListener('message', function (e) {
+      let data = e.data || {};
+      if (data.target && window[data.target]) {
+        var command = data.command;
+        var args = data.args;
+        if (command) {
+          window[data.target][command].apply(null, args || []);
+        }
+      }
+    }, false);
   }
 
   @bind
