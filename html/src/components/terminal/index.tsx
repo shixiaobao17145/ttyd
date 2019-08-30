@@ -76,7 +76,7 @@ export class Xterm extends Component<Props, State> {
     this.terminal.dispose();
 
     window.removeEventListener('resize', this.onWindowResize);
-    window.removeEventListener('beforeunload', this.onWindowUnload);
+    // window.removeEventListener('beforeunload', this.onWindowUnload);
   }
 
   render({ id }: Props, { modal }: State) {
@@ -193,11 +193,13 @@ export class Xterm extends Component<Props, State> {
     this.resizeTimeout = setTimeout(() => fitAddon.fit(), 250) as any;
   }
 
+  /*
   private onWindowUnload(event: BeforeUnloadEvent): string {
     const message = 'Close terminal? this will also terminate the command.';
     event.returnValue = message;
     return message;
   }
+  */
 
   @bind
   private openTerminal() {
@@ -239,7 +241,7 @@ export class Xterm extends Component<Props, State> {
     terminal.focus();
 
     window.addEventListener('resize', this.onWindowResize);
-    window.addEventListener('beforeunload', this.onWindowUnload);
+    // window.addEventListener('beforeunload', this.onWindowUnload);
   }
 
   @bind
@@ -258,7 +260,7 @@ export class Xterm extends Component<Props, State> {
 
     const { overlayAddon, openTerminal, reconnect } = this;
     overlayAddon.showOverlay('Connection Closed', null);
-    window.removeEventListener('beforeunload', this.onWindowUnload);
+    // window.removeEventListener('beforeunload', this.onWindowUnload);
 
     // 1008: POLICY_VIOLATION - Auth failure
     if (event.code === 1008) {
